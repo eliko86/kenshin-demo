@@ -65,24 +65,24 @@
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
-<script type="text/babel" src="kenshin-core.jsx?v=3"></script>
-<script type="text/babel" src="tweaks-panel.jsx?v=3"></script>
-<script type="text/babel" src="game-kit.jsx?v=3"></script>
-<script type="text/babel" src="buddy-characters.jsx?v=3"></script>
-<script type="text/babel" src="icons.jsx?v=3"></script>
-<script type="text/babel" src="screen-onboarding.jsx?v=3"></script>
-<script type="text/babel" src="screen-parent.jsx?v=3"></script>
-<script type="text/babel" src="screen-checkin.jsx?v=3"></script>
-<script type="text/babel" src="screen-chat.jsx?v=3"></script>
-<script type="text/babel" src="screen-voice.jsx?v=3"></script>
-<script type="text/babel" src="screen-breathe.jsx?v=3"></script>
-<script type="text/babel" src="screen-quest.jsx?v=3"></script>
-<script type="text/babel" src="screen-report.jsx?v=3"></script>
-<script type="text/babel" src="screen-account.jsx?v=3"></script>
-<script type="text/babel" src="screen-play.jsx?v=3"></script>
-<script type="text/babel" src="screen-talk.jsx?v=3"></script>
-<script type="text/babel" src="screen-customize.jsx?v=3"></script>
-<script type="text/babel" src="screen-missions.jsx?v=3"></script>
+<script type="text/babel" src="kenshin-core.jsx?v=4"></script>
+<script type="text/babel" src="tweaks-panel.jsx?v=4"></script>
+<script type="text/babel" src="game-kit.jsx?v=4"></script>
+<script type="text/babel" src="buddy-characters.jsx?v=4"></script>
+<script type="text/babel" src="icons.jsx?v=4"></script>
+<script type="text/babel" src="screen-onboarding.jsx?v=4"></script>
+<script type="text/babel" src="screen-parent.jsx?v=4"></script>
+<script type="text/babel" src="screen-checkin.jsx?v=4"></script>
+<script type="text/babel" src="screen-chat.jsx?v=4"></script>
+<script type="text/babel" src="screen-voice.jsx?v=4"></script>
+<script type="text/babel" src="screen-breathe.jsx?v=4"></script>
+<script type="text/babel" src="screen-quest.jsx?v=4"></script>
+<script type="text/babel" src="screen-report.jsx?v=4"></script>
+<script type="text/babel" src="screen-account.jsx?v=4"></script>
+<script type="text/babel" src="screen-play.jsx?v=4"></script>
+<script type="text/babel" src="screen-talk.jsx?v=4"></script>
+<script type="text/babel" src="screen-customize.jsx?v=4"></script>
+<script type="text/babel" src="screen-missions.jsx?v=4"></script>
 
 <script type="text/babel">
 const { useState, useEffect } = React;
@@ -190,8 +190,9 @@ function Home({ go, tw }) {
   const buddyName = ((window.CHARACTERS || []).find((c) => c.id === buddy) || {}).name || 'Kenshy';
   const childName = (tw && tw.name && tw.name.trim()) || 'friend';
   const hour = new Date().getHours();
-  const roomVariant = (hour >= 6 && hour < 17) ? 'day' : (hour >= 17 && hour < 20) ? 'sunset' : 'night';
-  const timeGreet = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : hour < 21 ? 'Good evening' : 'Hi there';
+  const autoVariant = (hour >= 6 && hour < 17) ? 'day' : (hour >= 17 && hour < 20) ? 'sunset' : 'night';
+  const roomVariant = (tw && tw.timeOfDay) || autoVariant;   // Tweaks toggle overrides the clock
+  const timeGreet = roomVariant === 'night' ? 'Good night' : roomVariant === 'sunset' ? 'Good evening' : (hour < 12 ? 'Good morning' : 'Good afternoon');
   const roomSub = { day: 'Ready for a bright day together?', sunset: 'What a cozy evening — how was your day?', night: 'Snuggly night — I’m right here with you.' }[roomVariant];
 
   return (
@@ -375,7 +376,8 @@ function Proto() {
   // Deep-link hash wins; else a returning kid (saved name) skips straight to home; else onboarding.
   const [screen, setScreen] = useState(() => (window.location.hash ? window.location.hash.slice(1) : (savedSession.name ? 'home' : 'onboarding')));
   const [scale, setScale] = useState(1);
-  const [tw, setTweak] = useTweaks({ buddy: savedSession.buddy || 'kenshy', color: savedSession.color || '#5B8DEF', motion: 'lively', name: savedSession.name || '' });
+  const initTOD = ((h) => (h >= 6 && h < 17) ? 'day' : (h >= 17 && h < 20) ? 'sunset' : 'night')(new Date().getHours());
+  const [tw, setTweak] = useTweaks({ buddy: savedSession.buddy || 'kenshy', color: savedSession.color || '#5B8DEF', motion: 'lively', name: savedSession.name || '', timeOfDay: initTOD });
   useEffect(() => {
     const f = () => setScale(Math.min(1, (window.innerHeight - 40) / 874, (window.innerWidth - 24) / 402));
     f(); window.addEventListener('resize', f); return () => window.removeEventListener('resize', f);
@@ -410,6 +412,8 @@ function Proto() {
         <TweakSection label="Kenshy" />
         <TweakSelect label="Character" value={tw.buddy} options={CHARS} onChange={(v) => setTweak('buddy', v)} />
         <TweakColor label="Colour" value={tw.color} options={['#5B8DEF', '#3FC9C0', '#9B7CF5', '#FF7FB0', '#FFB454', '#FF7A3D']} onChange={(v) => setTweak('color', v)} />
+        <TweakSection label="Room" />
+        <TweakRadio label="Time of day" value={tw.timeOfDay} options={['day', 'sunset', 'night']} onChange={(v) => setTweak('timeOfDay', v)} />
         <TweakSection label="Feel" />
         <TweakRadio label="Motion" value={tw.motion} options={['calm', 'lively', 'playful']} onChange={(v) => setTweak('motion', v)} />
       </TweaksPanel>

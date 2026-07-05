@@ -264,7 +264,18 @@ function TweaksPanel({ title = 'Tweaks', children }) {
     window.addEventListener('mouseup', up);
   };
 
-  if (!open) return null;
+  if (!open) return (
+    <button onClick={() => setOpen(true)} aria-label="Open tweaks" title="Tweaks"
+      style={{ position: 'fixed', right: 16, bottom: 16, zIndex: 99999, width: 46, height: 46, borderRadius: '50%',
+        border: 'none', cursor: 'pointer', background: 'rgba(28,20,62,0.86)', color: '#EDE9FF',
+        boxShadow: '0 8px 22px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#EDE9FF" strokeWidth="2" strokeLinecap="round">
+        <path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M18 18h2" />
+        <circle cx="16" cy="6" r="2" fill="#EDE9FF" stroke="none" /><circle cx="10" cy="12" r="2" fill="#EDE9FF" stroke="none" /><circle cx="16" cy="18" r="2" fill="#EDE9FF" stroke="none" />
+      </svg>
+    </button>
+  );
   return (
     <>
       <style>{__TWEAKS_STYLE}</style>
