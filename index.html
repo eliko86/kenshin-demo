@@ -248,10 +248,10 @@ function Home({ go, tw }) {
               </div>
             </Card>
           </div>
-          {/* tappable quest star — "a quest is waiting" */}
-          <button onClick={() => go('quest')} title="A quest is waiting" style={{ position: 'absolute', left: 4, bottom: 40, border: 'none', background: 'none', cursor: 'pointer', padding: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, animation: 'ken-float 4s ease-in-out infinite', WebkitTapHighlightColor: 'transparent' }}>
-            <KIcon name="star" size={30} c={D.gold} />
-            <span style={{ fontFamily: DF, fontWeight: 700, fontSize: 9, color: D.gold, opacity: 0.9 }}>QUEST</span>
+          {/* tappable quest star — the crisp 3D star mascot */}
+          <button onClick={() => go('quest')} title="A quest is waiting" style={{ position: 'absolute', left: 2, bottom: 34, border: 'none', background: 'none', cursor: 'pointer', padding: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, animation: 'ken-float 4s ease-in-out infinite', WebkitTapHighlightColor: 'transparent' }}>
+            <img src="art/star-quest.png?v=4" alt="Quest" draggable="false" style={{ width: 52, height: 'auto', display: 'block', filter: 'drop-shadow(0 3px 8px rgba(0,0,0,0.45)) drop-shadow(0 0 12px rgba(255,194,75,0.65))' }} />
+            <span style={{ fontFamily: DF, fontWeight: 800, fontSize: 9.5, letterSpacing: 1, color: '#FFD873', textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}>QUEST</span>
           </button>
         </div>
 
