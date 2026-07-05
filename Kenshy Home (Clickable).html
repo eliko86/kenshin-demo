@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kenshy — Home (clickable)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Baloo+2:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: radial-gradient(70% 60% at 50% 0%, #241a4a 0%, transparent 60%), #0c0a1c;
+    min-height: 100vh; -webkit-font-smoothing: antialiased;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Nunito', system-ui, sans-serif;
+  }
+  button { font-family: inherit; }
+
+  /* shared keyframes used by the sub-screens */
+  @keyframes ken-breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+  @keyframes ken-float   { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+  @keyframes ken-twinkle { 0%,100% { opacity: .3; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.12); } }
+  @keyframes ken-wave    { 0%,100% { transform: scaleY(.32); } 50% { transform: scaleY(1.25); } }
+  @keyframes ken-bounce  { 0%,100% { transform: translateY(0); opacity: .5; } 50% { transform: translateY(-6px); opacity: 1; } }
+  @keyframes ken-caret   { 50% { opacity: 0; } }
+  @keyframes ken-burst   { from { transform: translate(0,0); opacity: 1; } to { transform: translate(var(--bx), var(--by)); opacity: 0; } }
+  @keyframes ken-pop     { to { transform: scale(1.7); opacity: 0; } }
+  @keyframes ken-rise    { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes ken-fadein  { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes ken-star-pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  @keyframes ken-confetti { 0% { transform: translateY(0) rotate(var(--r)); opacity: 1; } 80% { opacity: 1; } 100% { transform: translateY(840px) rotate(calc(var(--r) + 420deg)); opacity: 0; } }
+  @keyframes ken-emoji-float { 0% { transform: translateY(0) scale(.5); opacity: 0; } 18% { opacity: 1; } 100% { transform: translateY(-180px) scale(1.15); opacity: 0; } }
+  @keyframes ken-point-pop { 0% { opacity: 0; transform: translateX(-50%) translateY(24px) scale(.5); } 22% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1.12); } 70% { opacity: 1; } 100% { opacity: 0; transform: translateX(-50%) translateY(-44px) scale(1); } }
+  @keyframes ken-pop-in  { 0% { transform: scale(0); } 70% { transform: scale(1.15); } 100% { transform: scale(1); } }
+  @keyframes ken-wiggle  { 0%,100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+  @keyframes ken-scan    { 0% { transform: translateY(-130%); opacity: .2; } 50% { opacity: 1; } 100% { transform: translateY(130%); opacity: .2; } }
+  @keyframes bl-bob     { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7%); } }
+  @keyframes bl-sway    { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+  @keyframes bl-breathe { 0%,100% { transform: scale(1,1); } 50% { transform: scale(1.045,0.965); } }
+  @keyframes bl-squish  { 0%,100% { transform: scale(1,1); } 50% { transform: scale(1.06,0.92); } }
+  @keyframes bl-thump   { 0%,100% { transform: scale(1); } 14% { transform: scale(1.08); } 28% { transform: scale(1); } 42% { transform: scale(1.05); } 56% { transform: scale(1); } }
+  @keyframes bl-wobble  { 0%,100% { border-radius: 58% 42% 55% 45% / 55% 52% 48% 45%; transform: rotate(-2deg); } 50% { border-radius: 45% 55% 48% 52% / 48% 45% 55% 52%; transform: rotate(2deg); } }
+  @keyframes bl-drift   { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3%); } }
+  @keyframes bl-blink   { 0%,90%,100% { transform: translate(-50%,-50%) scaleY(1); } 94% { transform: translate(-50%,-50%) scaleY(0.08); } }
+  @keyframes bl-shadow  { 0%,100% { transform: translateX(-50%) scale(1); opacity: .24; } 50% { transform: translateX(-50%) scale(0.8); opacity: .14; } }
+  @keyframes bl-pop     { 0% { transform: scale(.5); } 70% { transform: scale(1.1); } 100% { transform: scale(1); } }
+  @keyframes bl-flick   { 0%,100% { transform: scale(1,1); } 50% { transform: scale(1.06,0.94) skewX(2deg); } }
+  @keyframes bl-zap     { 0%,100% { transform: scale(1,1); } 46% { transform: scale(1.05,0.95); } 52% { transform: scale(0.97,1.03); } }
+  @keyframes bl-spin    { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes bl-armL    { 0%,100% { transform: rotate(6deg); } 50% { transform: rotate(-14deg); } }
+  @keyframes bl-armR    { 0%,100% { transform: rotate(-6deg); } 50% { transform: rotate(14deg); } }
+  @keyframes proto-ripple { from { transform: translate(-50%,-50%) scale(0); opacity: .5; } to { transform: translate(-50%,-50%) scale(1); opacity: 0; } }
+  @keyframes proto-hint { 0%,100% { opacity: 0; } 50% { opacity: 1; } }
+
+  @media (prefers-reduced-motion: reduce) { * { animation-duration: .001ms !important; animation-iteration-count: 1 !important; } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="kenshin-core.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="game-kit.jsx"></script>
+<script type="text/babel" src="buddy-characters.jsx"></script>
+<script type="text/babel" src="icons.jsx"></script>
+<script type="text/babel" src="screen-checkin.jsx"></script>
+<script type="text/babel" src="screen-chat.jsx"></script>
+<script type="text/babel" src="screen-voice.jsx"></script>
+<script type="text/babel" src="screen-breathe.jsx"></script>
+<script type="text/babel" src="screen-quest.jsx"></script>
+<script type="text/babel" src="screen-report.jsx"></script>
+<script type="text/babel" src="screen-account.jsx"></script>
+<script type="text/babel" src="screen-play.jsx"></script>
+<script type="text/babel" src="screen-talk.jsx"></script>
+<script type="text/babel" src="screen-customize.jsx"></script>
+<script type="text/babel" src="screen-missions.jsx"></script>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+const theme = buildTheme({ palette: 'Soft sky', font: 'Fredoka', motion: 'lively', tone: 'gentle' });
+const DF = theme.displayFont;
+
+// ── dark home design tokens ──────────────────────────────────
+const D = {
+  text: '#F4F1FF', muted: '#B3ACE0', dim: '#8A83BE',
+  glass: 'linear-gradient(160deg, rgba(255,255,255,0.10), rgba(255,255,255,0.035))',
+  line: '1px solid rgba(255,255,255,0.12)',
+  blue: '#5B8DEF', violet: '#9B7CF5', lilac: '#A78BFA', gold: '#FFC24B', pink: '#FF7FB0', mint: '#3FC9C0',
+};
+
+// ── ambient night background: gradient + drifting twinkles ────
+function NightBg() {
+  const stars = React.useMemo(() => {
+    let s = 7; const rnd = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+    return Array.from({ length: 26 }, () => ({ x: rnd() * 100, y: rnd() * 62, r: 1 + rnd() * 2.2, d: 2.5 + rnd() * 3, delay: rnd() * 4, o: 0.4 + rnd() * 0.5 }));
+  }, []);
+  return (
+    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none',
+      background: 'radial-gradient(120% 60% at 50% -8%, #3a2570 0%, transparent 55%), radial-gradient(90% 50% at 100% 4%, #4a2a6e 0%, transparent 50%), linear-gradient(178deg, #241653 0%, #1b1140 46%, #150d33 100%)' }}>
+      {stars.map((st, i) => (
+        <div key={i} style={{ position: 'absolute', left: st.x + '%', top: st.y + '%', width: st.r, height: st.r, borderRadius: '50%',
+          background: '#fff', opacity: st.o, boxShadow: '0 0 6px rgba(255,255,255,0.8)',
+          animation: `ken-twinkle ${st.d}s ease-in-out ${st.delay}s infinite` }} />
+      ))}
+    </div>
+  );
+}
+
+// ── the live 3D buddy — soft-feathered sprite + colored aura ──
+// characters/soft/* are the original 3D renders with an elliptical alpha feather
+// baked in, so the dark plate melts into the dark home and the full colored
+// buddy reads as spotlit. Production TODO: 3x-res transparent renders.
+function HeroSprite({ buddy, color, motion, size = 196, glow = true }) {
+  const dur = (4.2 / Math.max(0.5, motion)).toFixed(2) + 's';
+  const w = size, h = size * 1.42;
+  return (
+    <div style={{ position: 'relative', width: w, height: h, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+      {glow && <div style={{ position: 'absolute', inset: '6% -14% 8%', borderRadius: '50%',
+        background: `radial-gradient(circle at 50% 46%, ${color}4d 0%, ${color}18 46%, transparent 68%)`, filter: 'blur(16px)' }} />}
+      <div style={{ position: 'absolute', bottom: '3%', left: '50%', transform: 'translateX(-50%)', width: '50%', height: '5.5%',
+        borderRadius: '50%', background: 'radial-gradient(closest-side, rgba(6,3,22,0.5), transparent 78%)', filter: 'blur(2px)' }} />
+      <img src={`characters/soft/${buddy || 'kenshy'}.png`} draggable="false" alt="buddy"
+        style={{ position: 'relative', width: '100%', height: '100%', objectFit: 'contain', userSelect: 'none',
+          filter: `saturate(1.12) brightness(1.05) drop-shadow(0 8px 14px ${color}55) drop-shadow(0 10px 16px rgba(0,0,0,0.4))`,
+          animation: `bl-bob ${dur} ease-in-out infinite` }} />
+    </div>
+  );
+}
+
+// ── reusable pressable card ──────────────────────────────────
+function Card({ onClick, style = {}, children, pad = 16 }) {
+  const press = onClick ? {
+    onPointerDown: (e) => { e.currentTarget.style.transform = 'scale(0.975)'; },
+    onPointerUp: (e) => { e.currentTarget.style.transform = 'scale(1)'; },
+    onPointerLeave: (e) => { e.currentTarget.style.transform = 'scale(1)'; },
+  } : {};
+  return (
+    <div onClick={onClick} {...press} style={{ background: D.glass, border: D.line, borderRadius: 24, padding: pad,
+      boxShadow: '0 12px 30px rgba(8,4,24,0.4), inset 0 1px 0 rgba(255,255,255,0.08)', backdropFilter: 'blur(10px)',
+      cursor: onClick ? 'pointer' : 'default', transition: 'transform .16s ease', WebkitTapHighlightColor: 'transparent', ...style }}>
+      {children}
+    </div>
+  );
+}
+
+const NAV = [
+  { key: 'Talk', to: 'talk', c: '#5B8DEF', icon: 'chat' },
+  { key: 'Play', to: 'play', c: '#9B7CF5', icon: 'play' },
+  { key: 'Customize', to: 'customize', c: '#FFB454', icon: 'shirt' },
+  { key: 'Store', to: null, c: '#FF7FB0', icon: 'bag', disabled: true },
+  { key: 'Missions', to: 'missions', c: '#A78BFA', icon: 'flag' },
+];
+
+const SCREENS = {
+  checkin: window.ScreenCheckin, chat: window.ScreenChat, voice: window.ScreenVoice,
+  breathe: window.ScreenBreathe, quest: window.ScreenQuest, report: window.ScreenReport,
+  account: window.ScreenAccount, play: window.ScreenPlay, talk: window.ScreenTalk,
+  customize: window.ScreenCustomize, missions: window.ScreenMissions,
+};
+
+function Home({ go, tw }) {
+  const buddy = (tw && tw.buddy) || 'kenshy';
+  const color = (tw && tw.color) || D.blue;
+  const motion = { calm: 0.7, lively: 1.05, playful: 1.5 }[tw && tw.motion] || 1.05;
+  const buddyName = ((window.CHARACTERS || []).find((c) => c.id === buddy) || {}).name || 'Kenshy';
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, color: D.text, fontFamily: theme.bodyFont, overflow: 'hidden' }}>
+      <NightBg />
+      <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', overflowX: 'hidden' }}>
+      <div style={{ position: 'relative', padding: '54px 18px 122px' }}>
+
+        {/* top bar */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+            <div style={{ width: 34, height: 34, borderRadius: 11, background: `linear-gradient(150deg, ${D.violet}, ${D.blue})`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 6px 14px ${D.violet}55` }}>
+              <KIcon name="chat" size={18} c="#ffffff" />
+            </div>
+            <span style={{ fontFamily: DF, fontWeight: 600, fontSize: 18, letterSpacing: 0.2 }}>kenshin<span style={{ color: D.lilac }}>.ai</span></span>
+          </div>
+          <button onClick={() => go('account')} style={{ border: 'none', background: 'none', cursor: 'pointer', position: 'relative', padding: 0 }}>
+            <div style={{ width: 40, height: 40, borderRadius: '50%', background: `conic-gradient(from 210deg, ${D.violet}, ${D.blue}, ${D.mint}, ${D.violet})`, padding: 2.5 }}>
+              <div style={{ width: '100%', height: '100%', borderRadius: '50%', background: '#241a4a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19 }}>🧒</div>
+            </div>
+            <span style={{ position: 'absolute', right: 1, bottom: 1, width: 11, height: 11, borderRadius: '50%', background: '#3BE38B', border: '2px solid #1b1140' }} />
+          </button>
+        </div>
+
+        {/* greeting */}
+        <div style={{ marginBottom: 2 }}>
+          <div style={{ fontFamily: DF, fontWeight: 600, fontSize: 29, lineHeight: 1.08 }}>Hey there, Alex! <span style={{ display: 'inline-block', animation: 'ken-wiggle 2.4s ease-in-out infinite' }}>👋</span></div>
+          <div style={{ color: D.muted, fontSize: 14.5, marginTop: 5 }}>Ready for something good today?</div>
+        </div>
+
+        {/* hero + speech bubble */}
+        <div style={{ position: 'relative', height: 236, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', marginTop: 4 }}>
+          <div onClick={() => go('talk')} style={{ cursor: 'pointer', transform: 'translateX(-10px)' }}>
+            <HeroSprite buddy={buddy} color={color} motion={motion} size={176} />
+          </div>
+          {/* speech bubble */}
+          <div style={{ position: 'absolute', top: 20, right: -2, width: 146 }}>
+            <Card pad={11} onClick={() => go('talk')} style={{ borderRadius: 18 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{ fontFamily: DF, fontWeight: 600, fontSize: 15 }}>{buddyName}</span>
+                <span style={{ fontSize: 12 }}>💜</span>
+              </div>
+              <div style={{ color: D.muted, fontSize: 11.5, marginTop: 1 }}>your AI friend</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 7 }}>
+                <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#3BE38B', boxShadow: '0 0 6px #3BE38B' }} />
+                <span style={{ fontSize: 11, color: D.text, fontWeight: 600 }}>here for you</span>
+              </div>
+            </Card>
+          </div>
+          {/* little star buddy */}
+          <div style={{ position: 'absolute', left: 8, bottom: 44, animation: 'ken-float 4s ease-in-out infinite' }}>
+            <KIcon name="star" size={28} c={D.gold} />
+          </div>
+        </div>
+
+        {/* quick row: mood + glow */}
+        <div style={{ display: 'flex', gap: 12, marginTop: 6 }}>
+          <Card onClick={() => go('checkin')} style={{ flex: 1.15 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <KIcon name="heart" size={24} c={D.pink} />
+              <span style={{ color: D.dim, fontSize: 18 }}>›</span>
+            </div>
+            <div style={{ fontFamily: DF, fontWeight: 600, fontSize: 16, marginTop: 10 }}>Mood check‑in</div>
+            <div style={{ color: D.muted, fontSize: 12.5, marginTop: 2 }}>How’s your sky tonight?</div>
+          </Card>
+          <Card onClick={() => go('account')} style={{ flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <KIcon name="spark" size={22} c={D.gold} />
+              <span style={{ fontFamily: DF, fontWeight: 700, fontSize: 13, color: D.gold }}>Lv 12</span>
+            </div>
+            <div style={{ fontFamily: DF, fontWeight: 600, fontSize: 16, marginTop: 10 }}>Your glow</div>
+            <div style={{ height: 7, borderRadius: 99, background: 'rgba(255,255,255,0.12)', marginTop: 8, overflow: 'hidden' }}>
+              <div style={{ width: '60%', height: '100%', borderRadius: 99, background: `linear-gradient(90deg, ${D.gold}, ${D.pink})` }} />
+            </div>
+            <div style={{ color: D.dim, fontSize: 11, marginTop: 5 }}>from real‑world quests</div>
+          </Card>
+        </div>
+
+        {/* today's mission */}
+        <Card onClick={() => go('missions')} pad={0} style={{ marginTop: 12, overflow: 'hidden', background: 'linear-gradient(135deg, #3a2d73, #271d59)' }}>
+          <div style={{ position: 'relative', minHeight: 138 }}>
+            <img src="art/star-hero.png" alt="" draggable="false" style={{ position: 'absolute', right: 0, top: 0, height: '100%', width: 150, objectFit: 'cover', objectPosition: 'left center' }} />
+            <div style={{ position: 'absolute', right: 96, top: 0, bottom: 0, width: 70, background: 'linear-gradient(90deg, #2c2162, transparent)' }} />
+            <div style={{ position: 'relative', padding: 16, maxWidth: 240 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                <KIcon name="flag" size={16} c={D.pink} />
+                <span style={{ fontFamily: DF, fontWeight: 600, fontSize: 12.5, letterSpacing: 0.3, color: D.pink, textTransform: 'uppercase' }}>Today’s mission</span>
+              </div>
+              <div style={{ fontFamily: DF, fontWeight: 600, fontSize: 21, marginTop: 8 }}>Spread kindness</div>
+              <div style={{ color: D.muted, fontSize: 12.5, marginTop: 3, lineHeight: 1.35 }}>Do 3 kind things out there — then tell me about them.</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 12 }}>
+                <div style={{ flex: 1, maxWidth: 110, height: 22, borderRadius: 99, background: 'rgba(255,255,255,0.14)', position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ width: '66%', height: '100%', background: `linear-gradient(90deg, ${D.violet}, ${D.blue})` }} />
+                  <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11.5, fontWeight: 700, fontFamily: DF }}>2 / 3</span>
+                </div>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'rgba(255,255,255,0.1)', borderRadius: 99, padding: '4px 9px', fontFamily: DF, fontWeight: 700, fontSize: 12.5 }}><KIcon name="star" size={14} c={D.gold} />+30</span>
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        {/* our adventure */}
+        <Card onClick={() => go('report')} pad={0} style={{ marginTop: 12, overflow: 'hidden' }}>
+          <img src="art/adventure-map.png" alt="" draggable="false" style={{ display: 'block', width: '100%', height: 128, objectFit: 'cover' }} />
+          <div style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div>
+              <div style={{ color: D.dim, fontSize: 11, fontWeight: 600, letterSpacing: 0.4, textTransform: 'uppercase' }}>Our adventure</div>
+              <div style={{ fontFamily: DF, fontWeight: 600, fontSize: 16, marginTop: 2 }}>Next stop: Creativity Island</div>
+            </div>
+            <span style={{ width: 30, height: 30, borderRadius: '50%', background: `linear-gradient(150deg, ${D.violet}, ${D.blue})`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 16 }}>→</span>
+          </div>
+        </Card>
+
+        {/* daily tip */}
+        <Card style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+              <KIcon name="heart" size={15} c={D.pink} />
+              <span style={{ fontFamily: DF, fontWeight: 600, fontSize: 13.5 }}>{buddyName}’s daily tip</span>
+            </div>
+            <div style={{ fontSize: 14, marginTop: 8, lineHeight: 1.4, color: D.text }}>You don’t have to be perfect to be amazing. Just be you! <span style={{ color: D.gold }}>✨</span></div>
+          </div>
+          <div style={{ width: 66, flexShrink: 0 }}><HeroSprite buddy={buddy} color={color} motion={motion} size={66} /></div>
+        </Card>
+      </div>
+      </div>
+
+      {/* bottom nav */}
+      <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, zIndex: 15, padding: '22px 10px 16px',
+        background: 'linear-gradient(180deg, rgba(21,13,51,0) 0%, rgba(21,13,51,0.88) 40%, #150d33 100%)',
+        display: 'flex', alignItems: 'flex-end', justifyContent: 'space-around' }}>
+        {NAV.map((n) => (
+          <button key={n.key} onClick={() => n.disabled ? null : go(n.to)} style={{ flex: 1, border: 'none', background: 'none', cursor: n.disabled ? 'default' : 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, padding: '4px 0', WebkitTapHighlightColor: 'transparent', opacity: n.disabled ? 0.5 : 1, position: 'relative' }}
+            onPointerDown={(e) => { if (!n.disabled) e.currentTarget.style.transform = 'scale(0.9)'; }}
+            onPointerUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            onPointerLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+            <span style={{ width: 48, height: 48, borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: `linear-gradient(155deg, color-mix(in srgb, ${n.c} 30%, #211642), color-mix(in srgb, ${n.c} 10%, #1a1138))`,
+              boxShadow: n.disabled ? 'none' : `inset 0 1px 0 rgba(255,255,255,0.14), 0 6px 14px rgba(8,4,24,0.4)` }}>
+              <KIcon name={n.icon} size={26} c={n.c} />
+            </span>
+            <span style={{ color: D.muted, fontSize: 11, fontWeight: 600, fontFamily: DF }}>{n.key}</span>
+            {n.disabled && <span style={{ position: 'absolute', top: 0, right: '50%', transform: 'translateX(28px)', fontSize: 8, fontWeight: 800, color: '#241C56', background: D.gold, padding: '1px 5px', borderRadius: 999, fontFamily: DF }}>SOON</span>}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SubScreen({ which, go, tw, setTweak }) {
+  const Comp = SCREENS[which];
+  const hasOwnBack = which === 'talk' || which === 'play' || which === 'customize' || which === 'missions';
+  const MOTION = { calm: 0.7, lively: 1.05, playful: 1.5 }[tw.motion] || 1.05;
+  return (
+    <div style={{ position: 'absolute', inset: 0 }}>
+      {Comp ? <Comp theme={theme} onBack={() => go('home')} buddyId={tw.buddy} buddyColor={tw.color} motion={MOTION} onSetBuddy={(v) => setTweak('buddy', v)} onSetColor={(v) => setTweak('color', v)} /> : null}
+      {!hasOwnBack && (
+      <button onClick={() => go('home')} style={{
+        position: 'absolute', top: 52, left: 14, zIndex: 90, width: 40, height: 40, borderRadius: '50%', border: 'none', cursor: 'pointer',
+        background: 'rgba(255,255,255,0.9)', boxShadow: '0 6px 16px rgba(40,50,90,0.28)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#2B3566" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      </button>
+      )}
+    </div>
+  );
+}
+
+function Proto() {
+  const [screen, setScreen] = useState('home');
+  const [scale, setScale] = useState(1);
+  const [tw, setTweak] = useTweaks({ buddy: 'kenshy', color: '#5B8DEF', motion: 'lively' });
+  useEffect(() => {
+    const f = () => setScale(Math.min(1, (window.innerHeight - 40) / 874, (window.innerWidth - 24) / 402));
+    f(); window.addEventListener('resize', f); return () => window.removeEventListener('resize', f);
+  }, []);
+  const CHARS = (window.CHARACTERS || []).map((c) => c.id);
+  return (
+    <div style={{ width: 402 * scale, height: 874 * scale }}>
+      <div style={{ width: 402, height: 874, transform: `scale(${scale})`, transformOrigin: 'top left', position: 'relative',
+        borderRadius: 46, overflow: 'hidden', background: '#150f30',
+        boxShadow: '0 30px 80px rgba(0,0,0,0.5), 0 0 0 11px #0b0a18, 0 0 0 13px #2a2740' }}>
+        {screen === 'home' ? <Home go={setScreen} tw={tw} /> : <SubScreen which={screen} go={setScreen} tw={tw} setTweak={setTweak} />}
+      </div>
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Kenshy" />
+        <TweakSelect label="Character" value={tw.buddy} options={CHARS} onChange={(v) => setTweak('buddy', v)} />
+        <TweakColor label="Colour" value={tw.color} options={['#5B8DEF', '#3FC9C0', '#9B7CF5', '#FF7FB0', '#FFB454', '#FF7A3D']} onChange={(v) => setTweak('color', v)} />
+        <TweakSection label="Feel" />
+        <TweakRadio label="Motion" value={tw.motion} options={['calm', 'lively', 'playful']} onChange={(v) => setTweak('motion', v)} />
+      </TweaksPanel>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Proto />);
+</script>
+
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#1E1749"/>
+    <rect x="34" y="30" width="32" height="30" rx="9" fill="#4C7DFF"/>
+    <circle cx="44" cy="43" r="2.6" fill="#fff"/><circle cx="56" cy="43" r="2.6" fill="#fff"/>
+    <path d="M44 50 Q50 55 56 50" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <rect x="20" y="72" width="60" height="10" rx="5" fill="#2C2462"/>
+  </svg>
+</template>
+</body>
+</html>

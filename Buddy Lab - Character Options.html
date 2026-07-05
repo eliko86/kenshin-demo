@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kenshy — Choose your buddy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background:
+      radial-gradient(60% 45% at 15% 0%, #DCEBFF 0%, transparent 60%),
+      radial-gradient(55% 45% at 92% 6%, #EFE6FF 0%, transparent 60%),
+      radial-gradient(70% 55% at 50% 100%, #FFEAF3 0%, transparent 62%),
+      linear-gradient(170deg, #F4F9FF 0%, #F7F3FF 55%, #FFF7F1 100%);
+    min-height: 100vh; -webkit-font-smoothing: antialiased;
+  }
+  button { font-family: inherit; }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-thumb { background: rgba(43,53,102,0.18); border-radius: 999px; }
+
+  /* idle 3D life */
+  @keyframes bl-bob     { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7%); } }
+  @keyframes bl-sway    { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+  @keyframes bl-breathe { 0%,100% { transform: scale(1,1); } 50% { transform: scale(1.045,0.965); } }
+  @keyframes bl-squish  { 0%,100% { transform: scale(1,1); } 50% { transform: scale(1.06,0.92); } }
+  @keyframes bl-thump   { 0%,100% { transform: scale(1); } 14% { transform: scale(1.08); } 28% { transform: scale(1); } 42% { transform: scale(1.05); } 56% { transform: scale(1); } }
+  @keyframes bl-wobble  {
+    0%,100% { border-radius: 58% 42% 55% 45% / 55% 52% 48% 45%; transform: rotate(-2deg); }
+    50%     { border-radius: 45% 55% 48% 52% / 48% 45% 55% 52%; transform: rotate(2deg); }
+  }
+  @keyframes bl-drift   { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3%); } }
+  @keyframes bl-blink   { 0%,90%,100% { transform: translate(-50%,-50%) scaleY(1); } 94% { transform: translate(-50%,-50%) scaleY(0.08); } }
+  @keyframes bl-shadow  { 0%,100% { transform: translateX(-50%) scale(1); opacity: .24; } 50% { transform: translateX(-50%) scale(0.8); opacity: .14; } }
+  @keyframes bl-pop     { 0% { transform: scale(.5); } 70% { transform: scale(1.1); } 100% { transform: scale(1); } }
+  @keyframes bl-flick   { 0%,100% { transform: scale(1,1); } 50% { transform: scale(1.06,0.94) skewX(2deg); } }
+  @keyframes bl-zap     { 0%,100% { transform: scale(1,1); } 46% { transform: scale(1.05,0.95); } 52% { transform: scale(0.97,1.03); } }
+  @keyframes bl-spin    { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes bl-armL    { 0%,100% { transform: rotate(6deg); } 50% { transform: rotate(-14deg); } }
+  @keyframes bl-armR    { 0%,100% { transform: rotate(-6deg); } 50% { transform: rotate(14deg); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="buddy-characters.jsx"></script>
+<script type="text/babel" src="buddy-lab.jsx"></script>
+
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#EAF4FF"/>
+    <circle cx="30" cy="34" r="13" fill="#3E9BFF"/>
+    <path d="M52 24 L58 38 L72 38 L61 47 L66 62 L52 53 L38 62 L43 47 L32 38 L46 38 Z" fill="#FFB23E"/>
+    <path d="M58 66 C44 56 41 47 49 42 C54 39 58 44 58 49 C58 44 62 39 67 42 C75 47 72 56 58 66 Z" fill="#FF7FB0"/>
+    <circle cx="26" cy="32" r="1.8" fill="#16224C"/><circle cx="34" cy="32" r="1.8" fill="#16224C"/>
+  </svg>
+</template>
+</body>
+</html>
