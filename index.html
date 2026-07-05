@@ -168,16 +168,35 @@ const SCREENS = {
   parentdash: window.ScreenParentDash, parentprivacy: window.ScreenParentPrivacy,
 };
 
+// The buddy's cozy room — a real backdrop the character stands in, lit for the
+// time of day (warm sunny morning ↔ glowing night). Art in art/room-{day,night}.png.
+function RoomBg({ variant, isDay }) {
+  return (
+    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', background: '#150d33' }}>
+      <img src={`art/room-${variant}.png?v=3`} draggable="false" alt=""
+        style={{ position: 'absolute', top: 0, left: 0, width: '100%', display: 'block' }} />
+      {/* top scrim so the logo + greeting stay legible over the room */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 220, background: 'linear-gradient(180deg, rgba(15,9,34,0.6) 0%, rgba(15,9,34,0.12) 55%, transparent 100%)' }} />
+      {/* fade the room's lower edge into the dark card area */}
+      <div style={{ position: 'absolute', left: 0, right: 0, top: 300, height: 190, background: 'linear-gradient(180deg, transparent 0%, rgba(21,13,51,0.72) 55%, #150d33 100%)' }} />
+    </div>
+  );
+}
+
 function Home({ go, tw }) {
   const buddy = (tw && tw.buddy) || 'kenshy';
   const color = (tw && tw.color) || D.blue;
   const motion = { calm: 0.7, lively: 1.05, playful: 1.5 }[tw && tw.motion] || 1.05;
   const buddyName = ((window.CHARACTERS || []).find((c) => c.id === buddy) || {}).name || 'Kenshy';
   const childName = (tw && tw.name && tw.name.trim()) || 'friend';
+  const hour = new Date().getHours();
+  const isDay = hour >= 7 && hour < 18;
+  const roomVariant = isDay ? 'day' : 'night';
+  const timeGreet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
 
   return (
     <div style={{ position: 'absolute', inset: 0, color: D.text, fontFamily: theme.bodyFont, overflow: 'hidden' }}>
-      <NightBg />
+      <RoomBg variant={roomVariant} isDay={isDay} />
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', overflowX: 'hidden' }}>
       <div style={{ position: 'relative', padding: '54px 18px 122px' }}>
 
@@ -204,9 +223,9 @@ function Home({ go, tw }) {
         </div>
 
         {/* greeting */}
-        <div style={{ marginBottom: 2 }}>
-          <div style={{ fontFamily: DF, fontWeight: 600, fontSize: 29, lineHeight: 1.08 }}>Hey there, {childName}! <span style={{ display: 'inline-block', animation: 'ken-wiggle 2.4s ease-in-out infinite' }}>👋</span></div>
-          <div style={{ color: D.muted, fontSize: 14.5, marginTop: 5 }}>Ready for something good today?</div>
+        <div style={{ marginBottom: 2, textShadow: '0 2px 12px rgba(8,4,24,0.7)' }}>
+          <div style={{ fontFamily: DF, fontWeight: 600, fontSize: 29, lineHeight: 1.08 }}>{timeGreet}, {childName}! <span style={{ display: 'inline-block', animation: 'ken-wiggle 2.4s ease-in-out infinite' }}>👋</span></div>
+          <div style={{ color: '#D8D2FF', fontSize: 14.5, marginTop: 5 }}>{isDay ? 'Ready for a bright day together?' : 'Cozy night — I’m right here with you.'}</div>
         </div>
 
         {/* hero + speech bubble */}
