@@ -65,24 +65,24 @@
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
-<script type="text/babel" src="kenshin-core.jsx?v=2"></script>
-<script type="text/babel" src="tweaks-panel.jsx?v=2"></script>
-<script type="text/babel" src="game-kit.jsx?v=2"></script>
-<script type="text/babel" src="buddy-characters.jsx?v=2"></script>
-<script type="text/babel" src="icons.jsx?v=2"></script>
-<script type="text/babel" src="screen-onboarding.jsx?v=2"></script>
-<script type="text/babel" src="screen-parent.jsx?v=2"></script>
-<script type="text/babel" src="screen-checkin.jsx?v=2"></script>
-<script type="text/babel" src="screen-chat.jsx?v=2"></script>
-<script type="text/babel" src="screen-voice.jsx?v=2"></script>
-<script type="text/babel" src="screen-breathe.jsx?v=2"></script>
-<script type="text/babel" src="screen-quest.jsx?v=2"></script>
-<script type="text/babel" src="screen-report.jsx?v=2"></script>
-<script type="text/babel" src="screen-account.jsx?v=2"></script>
-<script type="text/babel" src="screen-play.jsx?v=2"></script>
-<script type="text/babel" src="screen-talk.jsx?v=2"></script>
-<script type="text/babel" src="screen-customize.jsx?v=2"></script>
-<script type="text/babel" src="screen-missions.jsx?v=2"></script>
+<script type="text/babel" src="kenshin-core.jsx?v=3"></script>
+<script type="text/babel" src="tweaks-panel.jsx?v=3"></script>
+<script type="text/babel" src="game-kit.jsx?v=3"></script>
+<script type="text/babel" src="buddy-characters.jsx?v=3"></script>
+<script type="text/babel" src="icons.jsx?v=3"></script>
+<script type="text/babel" src="screen-onboarding.jsx?v=3"></script>
+<script type="text/babel" src="screen-parent.jsx?v=3"></script>
+<script type="text/babel" src="screen-checkin.jsx?v=3"></script>
+<script type="text/babel" src="screen-chat.jsx?v=3"></script>
+<script type="text/babel" src="screen-voice.jsx?v=3"></script>
+<script type="text/babel" src="screen-breathe.jsx?v=3"></script>
+<script type="text/babel" src="screen-quest.jsx?v=3"></script>
+<script type="text/babel" src="screen-report.jsx?v=3"></script>
+<script type="text/babel" src="screen-account.jsx?v=3"></script>
+<script type="text/babel" src="screen-play.jsx?v=3"></script>
+<script type="text/babel" src="screen-talk.jsx?v=3"></script>
+<script type="text/babel" src="screen-customize.jsx?v=3"></script>
+<script type="text/babel" src="screen-missions.jsx?v=3"></script>
 
 <script type="text/babel">
 const { useState, useEffect } = React;
@@ -128,7 +128,7 @@ function HeroSprite({ buddy, color, motion, size = 196, glow = true }) {
         background: `radial-gradient(circle at 50% 46%, ${color}4d 0%, ${color}18 46%, transparent 68%)`, filter: 'blur(16px)' }} />}
       <div style={{ position: 'absolute', bottom: '3%', left: '50%', transform: 'translateX(-50%)', width: '50%', height: '5.5%',
         borderRadius: '50%', background: 'radial-gradient(closest-side, rgba(6,3,22,0.5), transparent 78%)', filter: 'blur(2px)' }} />
-      <img src={`characters/soft/${buddy || 'kenshy'}.png`} draggable="false" alt="buddy"
+      <img src={`characters/soft/${buddy || 'kenshy'}.png?v=3`} draggable="false" alt="buddy"
         style={{ position: 'relative', width: '100%', height: '100%', objectFit: 'contain', userSelect: 'none',
           filter: `saturate(1.12) brightness(1.05) drop-shadow(0 8px 14px ${color}55) drop-shadow(0 10px 16px rgba(0,0,0,0.4))`,
           animation: `bl-bob ${dur} ease-in-out infinite` }} />

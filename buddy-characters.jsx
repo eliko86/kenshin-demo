@@ -282,10 +282,12 @@ function SpriteBody({ src, size = 200, motion = 1, color, style = {} }) {
   );
 }
 const mkBody = (src, tint) => (props) => <SpriteBody src={src} color={props.color || tint} {...props} />;
-const soft = (id) => `characters/soft/${id}.png`;
+const ASSET_V = '3'; // bump to bust CDN/browser cache when sprite art changes
+const soft = (id) => `characters/soft/${id}.png?v=${ASSET_V}`;
 
 const CHARACTERS = [
   { id: 'kenshy', name: 'Kenshy', vibe: 'your first friend', tint: '#3E9BFF', Body: mkBody(soft('kenshy'), '#3E9BFF') },
+  { id: 'nova', name: 'Nova', vibe: 'brave hero', tint: '#6C5CE7', Body: mkBody(soft('nova'), '#6C5CE7') },
   { id: 'ember', name: 'Ember', vibe: 'warm & brave', tint: '#FF7A3D', Body: mkBody(soft('ember'), '#FF7A3D') },
   { id: 'sprout', name: 'Sprout', vibe: 'gentle & growing', tint: '#54C86E', Body: mkBody(soft('sprout'), '#54C86E') },
   { id: 'luna', name: 'Luna', vibe: 'quiet & wise', tint: '#9B7CF5', Body: mkBody(soft('luna'), '#9B7CF5') },
