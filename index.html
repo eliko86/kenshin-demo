@@ -170,15 +170,15 @@ const SCREENS = {
 
 // The buddy's cozy room — a real backdrop the character stands in, lit for the
 // time of day (warm sunny morning ↔ glowing night). Art in art/room-{day,night}.png.
-function RoomBg({ variant, isDay }) {
+function RoomBg({ variant }) {
   return (
     <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', background: '#150d33' }}>
-      <img src={`art/room-${variant}.png?v=3`} draggable="false" alt=""
-        style={{ position: 'absolute', top: 0, left: 0, width: '100%', display: 'block' }} />
+      <img src={`art/room-${variant}.jpeg?v=4`} draggable="false" alt=""
+        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 500, objectFit: 'cover', objectPosition: 'center 42%', display: 'block' }} />
       {/* top scrim so the logo + greeting stay legible over the room */}
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 220, background: 'linear-gradient(180deg, rgba(15,9,34,0.6) 0%, rgba(15,9,34,0.12) 55%, transparent 100%)' }} />
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 230, background: 'linear-gradient(180deg, rgba(15,9,34,0.62) 0%, rgba(15,9,34,0.14) 58%, transparent 100%)' }} />
       {/* fade the room's lower edge into the dark card area */}
-      <div style={{ position: 'absolute', left: 0, right: 0, top: 300, height: 190, background: 'linear-gradient(180deg, transparent 0%, rgba(21,13,51,0.72) 55%, #150d33 100%)' }} />
+      <div style={{ position: 'absolute', left: 0, right: 0, top: 350, height: 190, background: 'linear-gradient(180deg, transparent 0%, rgba(21,13,51,0.74) 55%, #150d33 100%)' }} />
     </div>
   );
 }
@@ -190,13 +190,13 @@ function Home({ go, tw }) {
   const buddyName = ((window.CHARACTERS || []).find((c) => c.id === buddy) || {}).name || 'Kenshy';
   const childName = (tw && tw.name && tw.name.trim()) || 'friend';
   const hour = new Date().getHours();
-  const isDay = hour >= 7 && hour < 18;
-  const roomVariant = isDay ? 'day' : 'night';
-  const timeGreet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+  const roomVariant = (hour >= 6 && hour < 17) ? 'day' : (hour >= 17 && hour < 20) ? 'sunset' : 'night';
+  const timeGreet = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : hour < 21 ? 'Good evening' : 'Hi there';
+  const roomSub = { day: 'Ready for a bright day together?', sunset: 'What a cozy evening — how was your day?', night: 'Snuggly night — I’m right here with you.' }[roomVariant];
 
   return (
     <div style={{ position: 'absolute', inset: 0, color: D.text, fontFamily: theme.bodyFont, overflow: 'hidden' }}>
-      <RoomBg variant={roomVariant} isDay={isDay} />
+      <RoomBg variant={roomVariant} />
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', overflowX: 'hidden' }}>
       <div style={{ position: 'relative', padding: '54px 18px 122px' }}>
 
@@ -225,7 +225,7 @@ function Home({ go, tw }) {
         {/* greeting */}
         <div style={{ marginBottom: 2, textShadow: '0 2px 12px rgba(8,4,24,0.7)' }}>
           <div style={{ fontFamily: DF, fontWeight: 600, fontSize: 29, lineHeight: 1.08 }}>{timeGreet}, {childName}! <span style={{ display: 'inline-block', animation: 'ken-wiggle 2.4s ease-in-out infinite' }}>👋</span></div>
-          <div style={{ color: '#D8D2FF', fontSize: 14.5, marginTop: 5 }}>{isDay ? 'Ready for a bright day together?' : 'Cozy night — I’m right here with you.'}</div>
+          <div style={{ color: '#D8D2FF', fontSize: 14.5, marginTop: 5 }}>{roomSub}</div>
         </div>
 
         {/* hero + speech bubble */}
