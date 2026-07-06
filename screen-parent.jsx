@@ -10,13 +10,21 @@ function PCard({ theme, children, style }) {
 function PLabel({ theme, children, style }) {
   return <div style={{ color: theme.muted, fontSize: 12, fontWeight: 700, letterSpacing: 1.2, textTransform: 'uppercase', ...style }}>{children}</div>;
 }
-function ParentChrome({ theme, active }) {
-  // a small persona banner so it's unmistakable this is the grown-up view
+function ParentChrome({ theme, active, onBack }) {
+  // a small persona banner so it's unmistakable this is the grown-up view,
+  // with a clear back-to-kid-app button
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '7px 12px', borderRadius: 999, background: theme.surf(0.06), alignSelf: 'flex-start' }}>
-      <span style={{ width: 22, height: 22, borderRadius: '50%', background: `linear-gradient(135deg, #7C84B8, #4E567F)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>👤</span>
-      <span style={{ color: theme.text, fontSize: 12.5, fontWeight: 700, fontFamily: theme.displayFont }}>Grown-up view</span>
-      <span style={{ color: theme.muted, fontSize: 11.5 }}>· {active}</span>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, alignSelf: 'stretch' }}>
+      {onBack && (
+        <button onClick={onBack} aria-label="Back" style={{ flexShrink: 0, width: 38, height: 38, borderRadius: '50%', border: 'none', cursor: 'pointer', background: theme.surf(0.08), boxShadow: `inset 0 0 0 1px ${theme.line(0.14)}`, display: 'flex', alignItems: 'center', justifyContent: 'center', WebkitTapHighlightColor: 'transparent' }}>
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke={theme.text} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        </button>
+      )}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '7px 12px', borderRadius: 999, background: theme.surf(0.06) }}>
+        <span style={{ width: 22, height: 22, borderRadius: '50%', background: `linear-gradient(135deg, #7C84B8, #4E567F)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>👤</span>
+        <span style={{ color: theme.text, fontSize: 12.5, fontWeight: 700, fontFamily: theme.displayFont }}>Grown-up view</span>
+        <span style={{ color: theme.muted, fontSize: 11.5 }}>· {active}</span>
+      </div>
     </div>
   );
 }
@@ -37,7 +45,7 @@ const KIDS = [
     note: 'Ava’s been quieter but steady. She invited a classmate to study together — a big, brave step for her.' },
 ];
 
-function ScreenParentDash({ theme }) {
+function ScreenParentDash({ theme, onBack }) {
   const [sel, setSel] = React.useState(0);
   const COLS = { primary: theme.primary, secondary: theme.secondary, warm: theme.warm, pink: theme.pink, p: theme.primary, s: theme.secondary, w: theme.warm };
   const kid = KIDS[sel];
@@ -59,7 +67,7 @@ function ScreenParentDash({ theme }) {
       <Starfield count={12} seed={21} motion={theme.motion * 0.5} />
 
       <div style={{ position: 'relative', flex: 1, overflowY: 'auto', padding: '58px 18px 34px' }}>
-        <ParentChrome theme={theme} active={`Family · ${KIDS.length} children`} />
+        <ParentChrome theme={theme} active={`Family · ${KIDS.length} children`} onBack={onBack} />
 
         {/* child switcher */}
         <div style={{ display: 'flex', gap: 10, marginTop: 14, overflowX: 'auto', padding: '2px 2px 8px' }}>
@@ -162,7 +170,7 @@ function ScreenParentDash({ theme }) {
 }
 
 // ── Privacy & settings ───────────────────────────────────────
-function ScreenParentPrivacy({ theme }) {
+function ScreenParentPrivacy({ theme, onBack }) {
   const [weekly, setWeekly] = React.useState(true);
   const [alerts, setAlerts] = React.useState(true);
 
@@ -195,7 +203,7 @@ function ScreenParentPrivacy({ theme }) {
       <Starfield count={12} seed={23} motion={theme.motion * 0.5} />
 
       <div style={{ position: 'relative', flex: 1, overflowY: 'auto', padding: '60px 18px 34px' }}>
-        <ParentChrome theme={theme} active="Privacy & settings" />
+        <ParentChrome theme={theme} active="Privacy & settings" onBack={onBack} />
 
         <div style={{ margin: '16px 2px 8px' }}>
           <GlowText color={theme.text} size={22} weight={600} font={theme.displayFont} glow={0.18}>What you can see</GlowText>

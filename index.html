@@ -3,14 +3,15 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Kenshin — your buddy for feeling braver</title>
+<title>KenshinAI — your buddy for feeling braver</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23171043'/%3E%3Cpath d='M30 24h40a12 12 0 0112 12v20a12 12 0 01-12 12H46l-10 9v-9h-6a12 12 0 01-12-12V36a12 12 0 0112-12z' fill='%235B8DEF'/%3E%3Ccircle cx='42' cy='46' r='4' fill='%23fff'/%3E%3Ccircle cx='58' cy='46' r='4' fill='%23fff'/%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Baloo+2:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet" />
 <style>
   * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
+  html, body { margin: 0; padding: 0; overflow-x: hidden; width: 100%; max-width: 100%; }
+  #root { overflow-x: hidden; }
   body {
     background: radial-gradient(70% 60% at 50% 0%, #241a4a 0%, transparent 60%), #0c0a1c;
     min-height: 100vh; -webkit-font-smoothing: antialiased;
@@ -65,24 +66,24 @@
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
-<script type="text/babel" src="kenshin-core.jsx?v=4"></script>
-<script type="text/babel" src="tweaks-panel.jsx?v=4"></script>
-<script type="text/babel" src="game-kit.jsx?v=4"></script>
-<script type="text/babel" src="buddy-characters.jsx?v=4"></script>
-<script type="text/babel" src="icons.jsx?v=4"></script>
-<script type="text/babel" src="screen-onboarding.jsx?v=4"></script>
-<script type="text/babel" src="screen-parent.jsx?v=4"></script>
-<script type="text/babel" src="screen-checkin.jsx?v=4"></script>
-<script type="text/babel" src="screen-chat.jsx?v=4"></script>
-<script type="text/babel" src="screen-voice.jsx?v=4"></script>
-<script type="text/babel" src="screen-breathe.jsx?v=4"></script>
-<script type="text/babel" src="screen-quest.jsx?v=4"></script>
-<script type="text/babel" src="screen-report.jsx?v=4"></script>
-<script type="text/babel" src="screen-account.jsx?v=4"></script>
-<script type="text/babel" src="screen-play.jsx?v=4"></script>
-<script type="text/babel" src="screen-talk.jsx?v=4"></script>
-<script type="text/babel" src="screen-customize.jsx?v=4"></script>
-<script type="text/babel" src="screen-missions.jsx?v=4"></script>
+<script type="text/babel" src="kenshin-core.jsx?v=5"></script>
+<script type="text/babel" src="tweaks-panel.jsx?v=5"></script>
+<script type="text/babel" src="game-kit.jsx?v=5"></script>
+<script type="text/babel" src="buddy-characters.jsx?v=5"></script>
+<script type="text/babel" src="icons.jsx?v=5"></script>
+<script type="text/babel" src="screen-onboarding.jsx?v=5"></script>
+<script type="text/babel" src="screen-parent.jsx?v=5"></script>
+<script type="text/babel" src="screen-checkin.jsx?v=5"></script>
+<script type="text/babel" src="screen-chat.jsx?v=5"></script>
+<script type="text/babel" src="screen-voice.jsx?v=5"></script>
+<script type="text/babel" src="screen-breathe.jsx?v=5"></script>
+<script type="text/babel" src="screen-quest.jsx?v=5"></script>
+<script type="text/babel" src="screen-report.jsx?v=5"></script>
+<script type="text/babel" src="screen-account.jsx?v=5"></script>
+<script type="text/babel" src="screen-play.jsx?v=5"></script>
+<script type="text/babel" src="screen-talk.jsx?v=5"></script>
+<script type="text/babel" src="screen-customize.jsx?v=5"></script>
+<script type="text/babel" src="screen-missions.jsx?v=5"></script>
 
 <script type="text/babel">
 const { useState, useEffect } = React;
@@ -199,7 +200,7 @@ function Home({ go, tw }) {
     <div style={{ position: 'absolute', inset: 0, color: D.text, fontFamily: theme.bodyFont, overflow: 'hidden' }}>
       <RoomBg variant={roomVariant} />
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', overflowX: 'hidden' }}>
-      <div style={{ position: 'relative', padding: '54px 18px 122px' }}>
+      <div style={{ position: 'relative', padding: 'max(54px, calc(env(safe-area-inset-top) + 10px)) 18px calc(122px + env(safe-area-inset-bottom))' }}>
 
         {/* top bar */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
@@ -329,7 +330,7 @@ function Home({ go, tw }) {
 
       {/* bottom nav — container is click-through (its gradient is see-through at top);
           only the buttons capture taps so cards behind stay tappable */}
-      <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, zIndex: 15, padding: '22px 10px 16px', pointerEvents: 'none',
+      <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, zIndex: 15, padding: '22px 10px calc(16px + env(safe-area-inset-bottom))', pointerEvents: 'none',
         background: 'linear-gradient(180deg, rgba(21,13,51,0) 0%, rgba(21,13,51,0.88) 40%, #150d33 100%)',
         display: 'flex', alignItems: 'flex-end', justifyContent: 'space-around' }}>
         {NAV.map((n) => (
@@ -353,14 +354,14 @@ function Home({ go, tw }) {
 
 function SubScreen({ which, go, tw, setTweak }) {
   const Comp = SCREENS[which];
-  const hasOwnBack = which === 'talk' || which === 'play' || which === 'customize' || which === 'missions';
+  const hasOwnBack = which === 'talk' || which === 'play' || which === 'customize' || which === 'missions' || which === 'parentdash' || which === 'parentprivacy';
   const MOTION = { calm: 0.7, lively: 1.05, playful: 1.5 }[tw.motion] || 1.05;
   return (
     <div style={{ position: 'absolute', inset: 0 }}>
       {Comp ? <Comp theme={theme} onBack={() => go('home')} go={go} onNav={go} childName={tw.name} buddyId={tw.buddy} buddyColor={tw.color} motion={MOTION} onSetBuddy={(v) => setTweak('buddy', v)} onSetColor={(v) => setTweak('color', v)} onSignOut={() => { try { localStorage.removeItem('kenshin_session'); } catch (e) {} setTweak({ name: '' }); go('onboarding'); }} /> : null}
       {!hasOwnBack && (
       <button onClick={() => go('home')} aria-label="Back" style={{
-        position: 'absolute', top: 15, left: 14, zIndex: 120, width: 36, height: 36, borderRadius: '50%', border: 'none', cursor: 'pointer',
+        position: 'absolute', top: 'max(15px, env(safe-area-inset-top))', left: 'max(14px, env(safe-area-inset-left))', zIndex: 120, width: 38, height: 38, borderRadius: '50%', border: 'none', cursor: 'pointer',
         background: 'rgba(20,14,44,0.6)', backdropFilter: 'blur(8px)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.16), 0 4px 12px rgba(0,0,0,0.35)',
         display: 'flex', alignItems: 'center', justifyContent: 'center', WebkitTapHighlightColor: 'transparent',
       }}>
