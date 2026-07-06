@@ -10,8 +10,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Baloo+2:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet" />
 <style>
   * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; overflow-x: hidden; width: 100%; max-width: 100%; }
+  html, body { margin: 0; padding: 0; overflow-x: hidden; width: 100%; max-width: 100%; overscroll-behavior: none; }
   #root { overflow-x: hidden; }
+  /* native feel: hide all scrollbars (content still scrolls) */
+  * { scrollbar-width: none; -ms-overflow-style: none; }
+  *::-webkit-scrollbar { width: 0 !important; height: 0 !important; display: none !important; }
   body {
     background: radial-gradient(70% 60% at 50% 0%, #241a4a 0%, transparent 60%), #0c0a1c;
     min-height: 100vh; -webkit-font-smoothing: antialiased;
