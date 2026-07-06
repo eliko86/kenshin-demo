@@ -23,3 +23,10 @@ art/r1.jpeg
 art/r2.jpeg
 art/r3.jpeg
 art/room.png
+www/
+ios/App/App/public/
+ios/App/Pods/
+ios/DerivedData/
+ios/App/build/
+capacitor.config.json
+assets/

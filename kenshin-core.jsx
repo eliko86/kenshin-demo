@@ -12,10 +12,11 @@ const PALETTES = {
   'Warm peach': ['#FFF4EC', '#FF8E6B', '#FF9F5B', '#FFC95B', '#FF6FA3'],
 };
 
+const EMOJI = "'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji'";
 const FONTS = {
-  Fredoka: "'Fredoka', system-ui, sans-serif",
-  'Baloo 2': "'Baloo 2', system-ui, sans-serif",
-  Quicksand: "'Quicksand', system-ui, sans-serif",
+  Fredoka: `'Fredoka', ${EMOJI}, system-ui, sans-serif`,
+  'Baloo 2': `'Baloo 2', ${EMOJI}, system-ui, sans-serif`,
+  Quicksand: `'Quicksand', ${EMOJI}, system-ui, sans-serif`,
 };
 
 const INK = '#2B3566';      // primary text — deep soft indigo
@@ -46,7 +47,7 @@ function buildTheme(t) {
     line: (a) => hexA(LIGHT, Math.min(a * 1.1, 0.42)),
     card: '#221A4A',               // solid dark card surface
     displayFont: FONTS[t.font] || FONTS.Fredoka,
-    bodyFont: "'Nunito', system-ui, sans-serif",
+    bodyFont: `'Nunito', ${EMOJI}, system-ui, sans-serif`,
     dark: true,
     motion,
     tone: t.tone || 'gentle',
